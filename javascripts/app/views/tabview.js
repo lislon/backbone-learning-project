@@ -12,7 +12,7 @@ app.TabView = Backbone.View.extend({
             return view;
         },
         "stat": function(el) {
-            var stat = new app.StatView({ el: el});
+            var stat = new app.StatView({ el: el });
             return stat;
         }
     },
@@ -31,18 +31,25 @@ app.TabView = Backbone.View.extend({
     switchTab: function(name) {
         // Alredy loaded tab?
         if (!this._loadedTabs[name]) {
-            var newTab = this.tabs[name].call(this, $('#tab-wrapper').append('<div id="tab-' + name + '" />'));
+            $("#tab-wrapper").append('<div id="tab-' + name + '" />');
+            var newDiv = $('#tab-' + name);
+            var newTab = this.tabs[name].call(this, newDiv);
+            // Add new tab (it's hidden in css, we active it later)
+            this._loadedTabs[name] = newTab;
+
             if (newTab.renderTab) {
                 newTab.renderTab();
             }
-            // Add new tab (it's hidden in css, we active it later)
-            this._loadedTabs[name] = newTab;
         }
         this._loadedTabs[name].render();
 
         // Hide other tabs and switch tab button style to active
         _.each(this._loadedTabs, function(tab, key) {
-            tab.$el.toggleClass("active", key === name);
+            if (key === name) {
+                tab.$el.addClass("active");
+            } else {
+                tab.$el.removeClass("active");
+            }
             $("#tabs li#switch-tab-" + key).toggleClass("active", key === name);
         });
     }

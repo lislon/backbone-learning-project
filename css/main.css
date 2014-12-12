@@ -38,11 +38,11 @@ ul#tabs li.active {
 }
 
 # All preloaded tabs are hidden by default
-#tab-wrapper > div {
-  display: none;
+#tab-wrapper div {
+  background: red;
 }
+#tab-stat
+//*[@id="tab-stat"]
 
 # Show only current tab
-#tab-wrapper > div.active {
-  display: block;
-}
+

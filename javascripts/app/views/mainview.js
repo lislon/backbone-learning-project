@@ -58,7 +58,6 @@ app.MainView = Backbone.View.extend({
     redrawAll: function() {
         var list = $("#list");
         list.html('');
-        // TODO: How to beautify it?
         if (this.hideCompleted) {
             _.each(app.collection.remaining(), this.addItem, this);
         } else {
