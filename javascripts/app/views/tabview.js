@@ -2,7 +2,8 @@ var app = app || {};
 
 app.TabView = Backbone.View.extend({
     el: $('#wrapper'),
-    // list of tabs view and their initializers
+    // lst of tabs view and their initializers
+    // The argument 'el' points to newborn div container
     tabs: {
         "list": function(el) {
             var view = new app.MainView({ el: el, model: app.collection });
@@ -15,7 +16,9 @@ app.TabView = Backbone.View.extend({
             return stat;
         }
     },
+    // Caches the views of opened tabs
     _loadedTabs: {},
+    // When user clicks on tab, we change it
     events: {
         "click #switch-tab-list": function() {
             this.switchTab('list');
@@ -24,7 +27,9 @@ app.TabView = Backbone.View.extend({
             this.switchTab('stat');
         }
     }, 
+    // Show tab with given names and hides rest
     switchTab: function(name) {
+        // Alredy loaded tab?
         if (!this._loadedTabs[name]) {
             var newTab = this.tabs[name].call(this, $('#tab-wrapper').append('<div id="tab-' + name + '" />'));
             if (newTab.renderTab) {
