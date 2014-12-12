@@ -1,6 +1,6 @@
-$(function() {
-    var app = {};
+var app = app || {};
 
+$(function() {
     app.Todo = Backbone.Model.extend({
         defaults: {
             title: undefined,
@@ -9,73 +9,33 @@ $(function() {
     });
 
     app.TodoCollection = Backbone.Collection.extend({
-        url: '/',
         localStorage: new Backbone.LocalStorage("SomeCollection"),
-        model: app.Todo
+        model: app.Todo,
+
+        // Filter remaining items and return as array
+        remaining: function() {
+            return this.where({ completed: false });
+        }
     });
 
-    app.ItemView = Backbone.View.extend({
-        tagName: "li",
-        template: _.template($("#item-template").html()),
-
-        events: {
-            "click .title": "edit",
-            "click .confirm-edit": "update"
-        },  
-        edit: function() {
-            alert("Edit");
-            this.$(".edit").toggle();
-            this.$(".title").toggle();
-        },
-
-        render: function () {
-            this.$el.html(this.template(this.model.attributes));
-            return this;
-        }   
-    }); 
-
-    app.MainView = Backbone.View.extend({
-        el: $("#wrapper"),
-
-        events: {
-            "click #add": "add"
-        },  
-        add: function() {
-            var editbox = $("#todotext");
-            // persist & add to collection
-            app.collection.create({
-                title: editbox.val().trim()
-            });
-            editbox.val("").focus();
-        },
-        initialize: function () {
-            this.$list = $("#list");
-            _.bindAll(this, "render");
-            this.listenTo(app.collection, "add", this.render);
-        }, 
-
-        render: function () {
-            this.redrawAll();
-        },
-
-        redrawAll: function() {
-            this.$list.html('');
-            app.collection.each(function(entry) {
-                var entryView = new app.ItemView({ model: entry });
-                alert(this.$list === $("#list"));
-                this.$list.append(entryView.render().el);
-            });
+    app.Router = Backbone.Router.extend({
+        routes: {
+            'stat': function() {
+                app.tabView.switchTab('stat');
+            },
+            'list': function() {
+                app.tabView.switchTab('list');
+            },
+            '*default': function() {
+                // invoke default route - list
+                app.router.navigate('list', {
+                    trigger: true
+                });
+            }
         }
-    }); 
-
+    });
+    app.tabView = new app.TabView();
     app.collection = new app.TodoCollection();
-    var main = new app.MainView({ model: app.collection });
-    main.initialize();
-
-    app.collection.create([
-        {
-            "title": "Hello"
-        }
-    ]);
-
+    app.router = new app.Router();
+    Backbone.history.start();
 });

@@ -1,3 +1,48 @@
+/*
+ *#stat-tab {
+ *  display: none;
+ *}
+ */
 #list .edit {
   display: none;
+}
+
+#list li {
+  list-style-type: none;
+}
+
+#list li.done label {
+  text-decoration: line-through;
+}
+label {
+  display: inline-block;
+}
+
+#list label:first-letter {
+  color: red;
+} 
+
+ul#tabs {
+  margin-bottom: 10px;
+  list-style-type: none;
+  border: 1px solid black;
+}
+ul#tabs li {
+  display: inline;
+  margin: 0;
+}
+
+ul#tabs li.active {
+  font-weight: bold;
+  background: yellow;
+}
+
+# All preloaded tabs are hidden by default
+#tab-wrapper > div {
+  display: none;
+}
+
+# Show only current tab
+#tab-wrapper > div.active {
+  display: block;
 }
