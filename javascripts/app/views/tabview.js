@@ -40,13 +40,10 @@ app.TabView = Backbone.View.extend({
         }
         this._loadedTabs[name].render();
 
+        // Hide other tabs and switch tab button style to active
         _.each(this._loadedTabs, function(tab, key) {
             tab.$el.toggleClass("active", key === name);
             $("#tabs li#switch-tab-" + key).toggleClass("active", key === name);
         });
-    },
-
-    initTab: function() {
-        throw Error("Must implement initTab");
     }
 }); 

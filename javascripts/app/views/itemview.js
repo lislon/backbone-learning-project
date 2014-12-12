@@ -14,18 +14,21 @@ app.ItemView = Backbone.View.extend({
     initialize: function() {
         this.listenTo(this.model, "change", this.render);
     },
+    // User marks item as done or undone
     toggle: function() {
         this.model.save("completed", !this.model.get("completed"));
     },
+    // User deletes task
     remove: function() {
         this.model.destroy();
         this.$el.remove();
     },
     keyPress: function(e) {
-       if (e.keyCode == 13) { // Enter
+       if (e.keyCode == 13) { // User pressed enter key
            this.editDone();
        } 
     },
+    // User finishes editing, save changes
     editDone: function() {
         var val = this.$(".edit-text").val().trim();
         if (val) {

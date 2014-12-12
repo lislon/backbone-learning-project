@@ -14,21 +14,27 @@ app.MainView = Backbone.View.extend({
     },
     add: function() {
         var editbox = $("#todotext");
-        // persist & add to collection
-        app.collection.create({
-            title: editbox.val().trim()
-        });
-        editbox.val("").focus();
+        if (editbox.val().trim()) {
+            // create model, persist, add to collection in one step
+            app.collection.create({
+                title: editbox.val().trim()
+            });
+            editbox.val("").focus();
+        }
     },
     initialize: function () {
         this.listenTo(app.collection, "add", this.addItem);
         this.listenTo(app.collection, "reset", this.redrawAll);
         this.listenTo(app.collection, "all", this.render);
         this.footerTemplate = _.template($("#footer-template").html());
+        // Default filter settings
         this.hideCompleted = false;
     }, 
+    // Render basic template. Invokes by TabView after tab initialization
+    // TODO: Question to Vitaly: Where to put this stuff?
     renderTab: function() {
         this.$el.html(this.template());
+        // Render loaded items
         this.redrawAll();
     },
 
@@ -42,6 +48,7 @@ app.MainView = Backbone.View.extend({
         }
     },
 
+    // Render novel tab item
     addItem: function(model) {
         var list = $("#list");
         var entryView = new app.ItemView({ model: model });
@@ -51,12 +58,12 @@ app.MainView = Backbone.View.extend({
     redrawAll: function() {
         var list = $("#list");
         list.html('');
+        // TODO: How to beautify it?
         if (this.hideCompleted) {
             _.each(app.collection.remaining(), this.addItem, this);
         } else {
             app.collection.each(this.addItem, this);
         }
-        //this.updateChart();
     },
 
     updateChart: function() {

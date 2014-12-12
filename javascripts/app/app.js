@@ -2,10 +2,11 @@ var app = app || {};
 
 $(function() {
     app.Todo = Backbone.Model.extend({
+        // TODO: add validation of empty title
         defaults: {
             title: undefined,
             completed: false
-        }   
+        }
     });
 
     app.TodoCollection = Backbone.Collection.extend({

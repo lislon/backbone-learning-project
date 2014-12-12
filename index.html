@@ -16,6 +16,7 @@
         <div id="tab-wrapper">
         </div>
     </div>
+    <!-- underscores templates -->
     <script type="text/template" charset="utf-8" id="item-template">
         <div class="title">
             <input type="checkbox" class="toggle" <%= completed ? 'checked="checked"' : '' %> />
@@ -39,10 +40,12 @@
             <h1>Statistics</h1>
         </div>
     </script>
+    <!-- In real project we would use RequireJS or something like that... -->
     <script src="javascripts/vendors/jquery.js"></script>
     <script src="javascripts/vendors/underscore.js"></script>
     <script src="javascripts/vendors/backbone.js"></script>
     <script src="javascripts/vendors/backbone.localStorage.js"></script>
+    <!-- Our application -->
     <script src="javascripts/app/views/itemview.js"></script>
     <script src="javascripts/app/views/mainview.js"></script>
     <script src="javascripts/app/views/tabview.js"></script>
